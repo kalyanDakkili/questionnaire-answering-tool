@@ -1,0 +1,54 @@
+
+NOVAMED HEALTH - SUPPORT & TRAINING DOCUMENTATION
+==================================================
+
+CUSTOMER ONBOARDING
+-------------------
+Standard Onboarding (Starter/Professional):
+- Self-service setup wizard
+- Video tutorials library (50+ videos)
+- Help center articles (docs.novamed.health)
+- Email-based onboarding support for 30 days
+
+Enterprise Onboarding:
+- Dedicated Implementation Manager
+- Customized training sessions (up to 8 hours)
+- Data migration from legacy systems (supported formats: MedGenix, AdvancedMD, custom CSV)
+- Go-live support (on-site or remote)
+- 60-day hypercare period with weekly check-ins
+
+TRAINING RESOURCES
+------------------
+- NovaMed Academy: LMS with role-based training modules
+  - Receptionist Track (3 hours)
+  - Provider/Doctor Track (5 hours)
+  - Billing Manager Track (4 hours)
+  - Admin Track (6 hours)
+- Monthly live webinars for new feature releases
+- Certification: NovaMed Certified Administrator (NCA) credential
+
+CUSTOMER SUCCESS
+----------------
+- Quarterly Business Reviews (QBR) for Enterprise customers
+- NPS surveys sent quarterly
+- Feature request portal: feedback.novamed.health
+- Community forum: community.novamed.health
+
+KNOWN LANGUAGES SUPPORTED
+--------------------------
+Platform UI available in: English, Hindi, Kannada, Tamil, Telugu, Marathi
+Patient portal: English, Hindi, Kannada
+
+DATA MIGRATION SUPPORT
+----------------------
+- Migration from: PracticeSuite, Kareo, DrChrono, custom Excel/CSV
+- Migration timeline: 2-4 weeks depending on data volume
+- Data validation report provided post-migration
+- No data loss guarantee with rollback option within 14 days
+
+CONTACT INFORMATION
+-------------------
+- Support email: support@novamed.health
+- Enterprise hotline: +91-80-4567-8900 (24/7 for S1 incidents)
+- Sales: sales@novamed.health
+- Partner inquiries: partners@novamed.health

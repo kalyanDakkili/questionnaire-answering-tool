@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Review Answers - QuestionnaireAI</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+<style>
+  .toolbar { display:flex; gap:1rem; align-items:center; flex-wrap:wrap; margin-bottom:1.5rem; }
+  .select-all-row { display:flex; align-items:center; gap:0.5rem; padding:0.5rem; background:#f8f9fa; border-radius:6px; font-size:0.85rem; }
+</style>
+</head>
+<body>
+<nav class="navbar">
+  <a class="navbar-brand" th:href="@{/dashboard}">Questionnaire<span>AI</span></a>
+  <div class="nav-links">
+    <a th:href="@{/dashboard}">Dashboard</a>
+    <a th:href="@{/logout}">Logout</a>
+  </div>
+</nav>
+<div class="container">
+  <div class="page-title" th:text="'Review: ' + ${run.name}"></div>
+
+  <!-- Coverage Summary -->
+  <div class="coverage-grid">
+    <div class="coverage-item">
+      <div class="coverage-num total" th:text="${summary.total}">0</div>
+      <div class="coverage-label">Total Questions</div>
+    </div>
+    <div class="coverage-item">
+      <div class="coverage-num answered" th:text="${summary.answered}">0</div>
+      <div class="coverage-label">Answered</div>
+    </div>
+    <div class="coverage-item">
+      <div class="coverage-num cited" th:text="${summary.cited}">0</div>
+      <div class="coverage-label">With Citations</div>
+    </div>
+    <div class="coverage-item">
+      <div class="coverage-num not-found" th:text="${summary.notFound}">0</div>
+      <div class="coverage-label">Not Found</div>
+    </div>
+  </div>
+
+  <!-- Progress Bar -->
+  <div style="margin-bottom:1.5rem;">
+    <div style="display:flex;justify-content:space-between;font-size:0.85rem;color:var(--text-muted);margin-bottom:0.4rem;">
+      <span>Completion</span>
+      <span th:text="${summary.completionPercent} + '%'"></span>
+    </div>
+    <div class="progress">
+      <div class="progress-bar" th:style="'width:' + ${summary.completionPercent} + '%'"></div>
+    </div>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <a th:href="@{/questionnaire/{id}/export(id=${run.id})}" class="btn btn-success">
+      &#8659; Export DOCX
+    </a>
+    <button class="btn btn-warning" onclick="regenerateSelected()" id="regenBtn">
+      &#8635; Regenerate Selected
+    </button>
+    <a th:href="@{/dashboard}" class="btn btn-outline">&#8592; Back</a>
+    <div class="select-all-row">
+      <input type="checkbox" id="selectAll" onchange="toggleAll(this)">
+      <label for="selectAll">Select All</label>
+    </div>
+  </div>
+
+  <!-- Q&A Blocks -->
+  <div id="qaContainer">
+    <div class="qa-block" th:each="qa : ${answers}" th:id="'qa-' + ${qa.id}">
+      <div class="qa-question">
+        <div style="display:flex;align-items:flex-start;gap:0.8rem;flex:1;">
+          <input type="checkbox" class="qa-checkbox" th:value="${qa.id}" style="margin-top:3px;flex-shrink:0;">
+          <span class="qa-question-num" th:text="'Q' + ${qa.questionOrder}"></span>
+          <span th:text="${qa.question}"></span>
+        </div>
+        <div style="flex-shrink:0;">
+          <span class="badge" th:classappend="${qa.answer != null and qa.answer.contains('Not found') ? 'badge-danger' : 'badge-success'}"
+                th:text="${qa.answer != null and qa.answer.contains('Not found') ? 'Not Found' : 'Answered'}"></span>
+        </div>
+      </div>
+      <div class="qa-body">
+        <!-- Answer -->
+        <div class="qa-answer" th:classappend="${qa.answer != null and qa.answer.contains('Not found') ? 'not-found' : ''}"
+             th:id="'answer-text-' + ${qa.id}" th:text="${qa.answer}"></div>
+
+        <!-- Confidence -->
+        <div th:if="${qa.confidenceScore != null and qa.confidenceScore > 0}" style="margin-top:0.5rem;">
+          <div style="font-size:0.75rem;color:var(--text-muted);">
+            Confidence: <span th:text="${#numbers.formatInteger(qa.confidenceScore * 100, 1)} + '%'"></span>
+          </div>
+          <div class="confidence-bar" style="width:200px;">
+            <div class="confidence-fill"
+                 th:style="'width:' + ${qa.confidenceScore * 100} + '%; background:' + (${qa.confidenceScore > 0.7 ? '#28a745' : (qa.confidenceScore > 0.4 ? '#ffc107' : '#dc3545')})"></div>
+          </div>
+        </div>
+
+        <!-- Evidence Snippet -->
+        <div class="qa-evidence" th:if="${qa.evidenceSnippet != null and !#strings.isEmpty(qa.evidenceSnippet)}">
+          <strong>Evidence: </strong><span th:text="${qa.evidenceSnippet}"></span>
+        </div>
+
+        <!-- Meta: citation + edited badge -->
+        <div class="qa-meta">
+          <span class="qa-citation" th:if="${qa.citation != null and !#strings.isEmpty(qa.citation)}">
+            &#128196; <span th:text="${qa.citation}"></span>
+          </span>
+          <span class="badge badge-warning" th:if="${qa.edited}">Edited</span>
+        </div>
+
+        <!-- Actions -->
+        <div class="qa-actions">
+          <button class="btn btn-outline btn-sm" th:onclick="'toggleEdit(' + ${qa.id} + ')'">&#9998; Edit</button>
+          <button class="btn btn-warning btn-sm" th:onclick="'regenOne(' + ${qa.id} + ')'">&#8635; Regenerate</button>
+        </div>
+
+        <!-- Edit Area -->
+        <div class="edit-area" th:id="'edit-' + ${qa.id}">
+          <textarea th:id="'edit-ta-' + ${qa.id}" th:text="${qa.answer}"></textarea>
+          <div style="display:flex;gap:0.5rem;margin-top:0.5rem;">
+            <button class="btn btn-success btn-sm" th:onclick="'saveEdit(' + ${qa.id} + ')'">Save</button>
+            <button class="btn btn-outline btn-sm" th:onclick="'cancelEdit(' + ${qa.id} + ')'">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;">
+    <a th:href="@{/questionnaire/{id}/export(id=${run.id})}" class="btn btn-success">
+      &#8659; Export DOCX
+    </a>
+    <a th:href="@{/dashboard}" class="btn btn-outline">&#8592; Back to Dashboard</a>
+  </div>
+</div>
+
+<script th:inline="javascript">
+  const runId = /*[[${run.id}]]*/ 0;
+  const csrfToken = /*[[${_csrf.token}]]*/ '';
+  const csrfHeader = /*[[${_csrf.headerName}]]*/ 'X-CSRF-TOKEN';
+
+  function toggleEdit(id) {
+    const area = document.getElementById('edit-' + id);
+    area.style.display = area.style.display === 'block' ? 'none' : 'block';
+  }
+  function cancelEdit(id) {
+    document.getElementById('edit-' + id).style.display = 'none';
+  }
+  async function saveEdit(id) {
+    const newAnswer = document.getElementById('edit-ta-' + id).value;
+    try {
+      const resp = await fetch('/questionnaire/' + runId + '/answer/' + id + '/edit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          [csrfHeader]: csrfToken
+        },
+        body: JSON.stringify({answerId: id, newAnswer: newAnswer})
+      });
+      if (resp.status === 403) { showToast('Session expired. Please refresh the page.', 'danger'); return; }
+      const data = await resp.json();
+      if (data.success) {
+        document.getElementById('answer-text-' + id).textContent = newAnswer;
+        document.getElementById('edit-' + id).style.display = 'none';
+        showToast('Answer saved!', 'success');
+      } else {
+        showToast('Error: ' + data.error, 'danger');
+      }
+    } catch(e) {
+      showToast('Network error: ' + e.message, 'danger');
+    }
+  }
+  async function regenOne(id) {
+    await regenerateAnswers([id]);
+  }
+  function toggleAll(cb) {
+    document.querySelectorAll('.qa-checkbox').forEach(c => c.checked = cb.checked);
+  }
+  async function regenerateSelected() {
+    const checked = [...document.querySelectorAll('.qa-checkbox:checked')].map(c => parseInt(c.value));
+    if (checked.length === 0) { showToast('Select at least one question', 'warning'); return; }
+    await regenerateAnswers(checked);
+  }
+  async function regenerateAnswers(ids) {
+    const btn = document.getElementById('regenBtn');
+    btn.disabled = true;
+    btn.textContent = 'Regenerating...';
+    try {
+      const resp = await fetch('/questionnaire/' + runId + '/regenerate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          [csrfHeader]: csrfToken
+        },
+        body: JSON.stringify({answerIds: ids})
+      });
+      if (resp.status === 403) { showToast('Session expired. Please refresh the page.', 'danger'); return; }
+      const data = await resp.json();
+      if (data.success) {
+        showToast('Answers regenerated! Refreshing...', 'success');
+        setTimeout(() => location.reload(), 1500);
+      } else {
+        showToast('Error: ' + data.error, 'danger');
+      }
+    } catch(e) {
+      showToast('Network error: ' + e.message, 'danger');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '&#8635; Regenerate Selected';
+    }
+  }
+  function showToast(msg, type) {
+    const t = document.createElement('div');
+    t.className = 'alert alert-' + type;
+    t.style.cssText = 'position:fixed;top:70px;right:20px;z-index:9999;max-width:320px;box-shadow:0 4px 12px rgba(0,0,0,0.15);';
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 3000);
+  }
+</script>
+</body>
+</html>

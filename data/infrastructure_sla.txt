@@ -1,0 +1,55 @@
+NOVAMED HEALTH - INFRASTRUCTURE & SLA DOCUMENTATION
+====================================================
+
+HOSTING & INFRASTRUCTURE
+-------------------------
+Cloud Provider: Amazon Web Services (AWS)
+Primary Region: ap-south-1 (Mumbai, India)
+DR Region: ap-southeast-1 (Singapore)
+Database: AWS RDS PostgreSQL (Multi-AZ deployment)
+Cache Layer: AWS ElastiCache (Redis)
+Object Storage: AWS S3 with versioning enabled
+CDN: AWS CloudFront for static assets
+
+UPTIME SLA COMMITMENT BY PLAN
+------------------------------
+NovaMed Health guarantees the following uptime SLA commitment for enterprise and other customers:
+Tier 1 - Starter Plan:       99.5% monthly uptime
+Tier 2 - Professional Plan:  99.7% monthly uptime
+Tier 3 - Enterprise Plan:    99.9% monthly uptime (approx. 8.7 hrs downtime/year)
+
+SUPPORT RESPONSE TIME SLA BY SEVERITY LEVEL
+--------------------------------------------
+NovaMed Health provides the following support response time SLAs by severity level:
+Severity 1 (Critical - system down):    1 hour response / 4 hour resolution (Enterprise)
+Severity 2 (Major feature unavailable): 4 hours response / 24 hours resolution
+Severity 3 (Minor issue):               8 hours response / 72 hours resolution
+Severity 4 (General query):             24 hours response / 5 business days resolution
+
+Support Channels:
+- Enterprise: Dedicated CSM + phone support (24/7 for S1)
+- Professional: Email + chat (business hours)
+- Starter: Email only (business hours, Mon-Fri)
+
+BACKUP & DISASTER RECOVERY STRATEGY
+-------------------------------------
+NovaMed Health backup and disaster recovery strategy includes:
+- Automated daily database snapshots
+- Point-In-Time Recovery (PITR): last 35 days
+- Recovery Time Objective (RTO): 4 hours
+- Recovery Point Objective (RPO): 1 hour
+- DR failover tested quarterly
+- Secondary DR region: AWS Singapore (ap-southeast-1)
+
+MAINTENANCE WINDOWS
+-------------------
+- Scheduled maintenance: Sundays 2 AM - 5 AM IST
+- Emergency maintenance: 2-hour advance notice via email + status page
+- Status page: status.novamed.health
+
+PERFORMANCE BENCHMARKS
+-----------------------
+- API response time P95: <200ms
+- Page load time: <2 seconds (3G network)
+- Concurrent users tested: 10,000
+- Data throughput: 1 GB/min during bulk import

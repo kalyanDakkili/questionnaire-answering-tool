@@ -1,0 +1,59 @@
+NOVAMED HEALTH - INTEGRATIONS & API DOCUMENTATION
+==================================================
+
+LAB AND PHARMACY INTEGRATIONS SUMMARY
+--------------------------------------
+- Thyrocare: Real-time lab order placement and result sync via Thyrocare API
+- SRL Diagnostics: One-way lab result import via HL7 FHIR R4 standard
+- Lal PathLabs: PDF result import via secure email gateway
+- Netmeds: Electronic prescription transmission directly to Netmeds platform
+- Apollo Pharmacy: Real-time stock check and prescription fulfillment via Apollo API
+- Medlife: E-prescription support, currently in pilot phase
+- All lab and pharmacy integrations use encrypted channels (TLS 1.2+) governed by Data Processing Agreements
+
+THIRD-PARTY INTEGRATIONS
+-------------------------
+Lab Systems:
+- Thyrocare API integration (real-time lab order + result sync)
+- SRL Diagnostics (one-way result import via HL7 FHIR R4)
+- Lal PathLabs (PDF result import via secure email)
+
+Pharmacy:
+- Netmeds (e-prescription transmission)
+- Apollo Pharmacy API (stock check + prescription fulfillment)
+- Medlife (limited availability, pilot phase)
+
+Insurance & Billing:
+- NHA (National Health Authority) ABDM integration
+- Medi Assist TPA API
+- Star Health Insurance claims API
+- ICICI Lombard health claims (in progress, Q3 2025)
+
+Telemedicine:
+- Jitsi Meet (open-source, self-hosted) for video consultations
+- WhatsApp Business API for appointment reminders
+- Twilio SMS gateway for OTP and notifications
+
+Accounting:
+- Zoho Books integration (bidirectional billing sync)
+- Tally ERP 9 export (CSV format)
+
+NOVAMED PUBLIC API
+------------------
+API Type: RESTful + FHIR R4 compliant endpoints
+Authentication: OAuth 2.0 (client_credentials and authorization_code flows)
+Base URL: https://api.novamed.health/v2/
+Documentation: https://developers.novamed.health
+Rate Limiting: 1,000 requests/minute per API key (Enterprise: 10,000/min)
+Webhooks: Available for appointment, billing, and prescription events
+SDKs: JavaScript, Python, Java (open source on GitHub)
+
+API AVAILABILITY:
+- API uptime SLA follows platform SLA tier
+- API changelog published at developers.novamed.health/changelog
+- Deprecation policy: 6 months notice before any breaking change
+
+INTEGRATION CERTIFICATION:
+- ABDM Health Facility Registry certified
+- NHA ABHA-linked records
+- HL7 FHIR R4 conformance statement available

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - QuestionnaireAI</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav class="navbar">
+  <a class="navbar-brand" th:href="@{/dashboard}">Questionnaire<span>AI</span></a>
+  <div class="nav-links">
+    <a th:href="@{/questionnaire/upload}">New Questionnaire</a>
+    <span class="nav-user" th:text="'Hello, ' + ${username}"></span>
+    <a th:href="@{/logout}">Logout</a>
+  </div>
+</nav>
+<div class="container">
+  <div class="page-title">Dashboard <small>Welcome back!</small></div>
+
+  <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+  <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+  <div th:if="${warning}" class="alert alert-warning" th:text="${warning}"></div>
+
+  <!-- Stats Row -->
+  <div class="grid-3" style="margin-bottom:2rem;">
+    <div class="stat-card">
+      <div class="stat-icon">&#128196;</div>
+      <div>
+        <div class="stat-value" th:text="${refDocCount}">0</div>
+        <div class="stat-label">Reference Documents</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">&#10067;</div>
+      <div>
+        <div class="stat-value" th:text="${runs.size()}">0</div>
+        <div class="stat-label">Questionnaire Runs</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">&#129302;</div>
+      <div>
+        <div class="stat-value">AI</div>
+        <div class="stat-label">Powered Answers</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <!-- Reference Documents -->
+    <div class="card">
+      <div class="card-header">&#128196; Reference Documents</div>
+      <div class="card-body">
+        <form th:action="@{/documents/upload}" method="post" enctype="multipart/form-data" id="uploadForm">
+          <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+            <div class="icon">&#128196;</div>
+            <p><strong>Click to upload</strong> or drag &amp; drop</p>
+            <p style="font-size:0.8rem;">PDF, DOCX, TXT, XLSX supported</p>
+          </div>
+          <input type="file" id="fileInput" name="files" multiple accept=".pdf,.docx,.txt,.xlsx" style="display:none" onchange="this.form.submit()">
+        </form>
+        <div th:if="${refDocs.empty}" class="empty-state" style="padding:1.5rem;">
+          <p>No reference documents yet. Upload documents to get started.</p>
+        </div>
+        <ul class="file-list" th:if="${!refDocs.empty}" style="margin-top:1rem;">
+          <li class="file-item" th:each="doc : ${refDocs}">
+            <span class="file-icon">&#128196;</span>
+            <span class="file-name" th:text="${doc.originalFilename}"></span>
+            <form th:action="@{/documents/delete/{id}(id=${doc.id})}" method="post" style="margin:0;">
+              <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+              <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Delete this document?')">&#128465;</button>
+            </form>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Questionnaire Runs -->
+    <div class="card">
+      <div class="card-header">&#128203; Questionnaire Runs</div>
+      <div class="card-body">
+        <a th:href="@{/questionnaire/upload}" class="btn btn-primary" style="margin-bottom:1rem;">
+          + New Questionnaire
+        </a>
+        <div th:if="${runs.empty}" class="empty-state" style="padding:1.5rem;">
+          <p>No questionnaires processed yet.</p>
+        </div>
+        <div th:each="run : ${runs}" class="run-item">
+          <div>
+            <div class="run-name" th:text="${run.name}"></div>
+            <div class="run-meta">
+              <span th:text="${run.answers.size() + ' questions'}"></span> &bull;
+              <span th:text="${#temporals.format(run.createdAt, 'dd MMM yyyy HH:mm')}"></span>
+            </div>
+          </div>
+          <div style="display:flex;gap:0.4rem;flex-wrap:wrap;">
+            <span class="badge" th:classappend="${run.status == 'COMPLETED' ? 'badge-success' : 'badge-warning'}" th:text="${run.status}"></span>
+            <a th:href="@{/questionnaire/{id}/review(id=${run.id})}" class="btn btn-outline btn-sm">Review</a>
+            <a th:href="@{/questionnaire/{id}/export(id=${run.id})}" class="btn btn-success btn-sm">Export</a>
+            <form th:action="@{/questionnaire/{id}/delete(id=${run.id})}" method="post" style="margin:0;">
+              <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+              <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Delete this run?')">&#128465;</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const dropZone = document.getElementById('dropZone');
+  const fileInput = document.getElementById('fileInput');
+  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropZone.classList.remove('drag-over');
+    const dt = new DataTransfer();
+    for (const file of e.dataTransfer.files) dt.items.add(file);
+    fileInput.files = dt.files;
+    document.getElementById('uploadForm').submit();
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Upload Questionnaire - QuestionnaireAI</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav class="navbar">
+  <a class="navbar-brand" th:href="@{/dashboard}">Questionnaire<span>AI</span></a>
+  <div class="nav-links">
+    <a th:href="@{/dashboard}">Dashboard</a>
+    <a th:href="@{/logout}">Logout</a>
+  </div>
+</nav>
+<div class="container" style="max-width:700px;">
+  <div class="page-title">Upload Questionnaire</div>
+
+  <div class="alert alert-info" th:if="${hasRefDocs == false}">
+    <span>&#8505;</span> You have no reference documents yet.
+    <a th:href="@{/dashboard}">Upload reference documents</a> first for best results.
+  </div>
+
+  <div class="card">
+    <div class="card-header">&#128203; Select Questionnaire File</div>
+    <div class="card-body">
+      <p style="color:var(--text-muted);margin-bottom:1.5rem;font-size:0.9rem;">
+        Upload your questionnaire in PDF, DOCX, or TXT format. The system will parse each question
+        and generate AI-powered answers grounded in your reference documents.
+      </p>
+      <form th:action="@{/questionnaire/process}" method="post" enctype="multipart/form-data" id="qForm">
+        <div class="drop-zone" id="dropZone" onclick="document.getElementById('qFile').click()">
+          <div class="icon" id="dropIcon">&#128196;</div>
+          <p id="dropText"><strong>Click to upload</strong> or drag &amp; drop</p>
+          <p style="font-size:0.8rem;" id="dropSub">PDF, DOCX, TXT supported</p>
+        </div>
+        <input type="file" id="qFile" name="file" accept=".pdf,.docx,.txt" style="display:none" onchange="fileSelected(this)">
+        
+        <div id="filePreview" style="display:none;margin-top:1rem;" class="alert alert-info">
+          <span>&#128196;</span> <span id="fileName"></span>
+        </div>
+
+        <div style="display:flex;gap:1rem;margin-top:1.5rem;align-items:center;">
+          <button type="submit" class="btn btn-primary" id="submitBtn" disabled>
+            <span id="btnText">Generate Answers</span>
+            <span id="btnSpinner" style="display:none;" class="spinner"></span>
+          </button>
+          <a th:href="@{/dashboard}" class="btn btn-outline">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:1.5rem;">
+    <div class="card-header">&#128161; How It Works</div>
+    <div class="card-body">
+      <div style="display:flex;flex-direction:column;gap:0.8rem;">
+        <div style="display:flex;gap:1rem;align-items:flex-start;">
+          <div style="background:var(--primary);color:white;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">1</div>
+          <div><strong>Parse:</strong> The system identifies individual questions from your file</div>
+        </div>
+        <div style="display:flex;gap:1rem;align-items:flex-start;">
+          <div style="background:var(--primary);color:white;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">2</div>
+          <div><strong>Retrieve:</strong> Relevant content is matched from your reference documents</div>
+        </div>
+        <div style="display:flex;gap:1rem;align-items:flex-start;">
+          <div style="background:var(--primary);color:white;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">3</div>
+          <div><strong>Generate:</strong> AI generates grounded answers with citations</div>
+        </div>
+        <div style="display:flex;gap:1rem;align-items:flex-start;">
+          <div style="background:var(--primary);color:white;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">4</div>
+          <div><strong>Review &amp; Export:</strong> Edit answers and download a formatted document</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function fileSelected(input) {
+    if (input.files.length > 0) {
+      document.getElementById('fileName').textContent = input.files[0].name;
+      document.getElementById('filePreview').style.display = 'block';
+      document.getElementById('submitBtn').disabled = false;
+      document.getElementById('dropText').innerHTML = '<strong>' + input.files[0].name + '</strong>';
+      document.getElementById('dropSub').textContent = 'File selected - click Generate Answers';
+      document.getElementById('dropIcon').textContent = '\u2705';
+    }
+  }
+  document.getElementById('qForm').addEventListener('submit', function() {
+    document.getElementById('btnText').textContent = 'Processing...';
+    document.getElementById('btnSpinner').style.display = 'inline-block';
+    document.getElementById('submitBtn').disabled = true;
+  });
+  const dropZone = document.getElementById('dropZone');
+  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropZone.classList.remove('drag-over');
+    const files = e.dataTransfer.files;
+    if (files.length) {
+      const dt = new DataTransfer();
+      dt.items.add(files[0]);
+      document.getElementById('qFile').files = dt.files;
+      fileSelected(document.getElementById('qFile'));
+    }
+  });
+</script>
+</body>
+</html>

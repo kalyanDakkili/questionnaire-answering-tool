@@ -1,0 +1,44 @@
+
+NOVAMED HEALTH - COMPANY OVERVIEW
+==================================
+Industry: HealthTech / SaaS
+
+NovaMed Health is a cloud-based Electronic Health Records (EHR) and practice management SaaS platform 
+serving outpatient clinics, specialty practices, and telehealth providers across India and Southeast Asia.
+Founded in 2019 and headquartered in Bengaluru, NovaMed serves over 1,200 active clinics with 
+approximately 3,500 active healthcare providers on the platform.
+
+PRODUCTS AND SERVICES
+----------------------
+1. NovaMed EHR - Core electronic health records system
+2. NovaMed Telehealth - Integrated video consultation module
+3. NovaMed Billing - Claims management and insurance billing
+4. NovaMed Analytics - Practice performance dashboards
+5. NovaMed Mobile - iOS and Android apps for providers and patients
+
+BUSINESS MODEL
+--------------
+- Monthly SaaS subscription per provider seat: INR 2,500–8,000 depending on tier
+- Implementation fee for onboarding: INR 15,000–50,000 one-time
+- Custom integrations: priced on quote
+- Annual enterprise contracts available with SLA guarantees
+
+KEY METRICS (FY 2024)
+-----------------------
+- Annual Recurring Revenue (ARR): INR 18.2 Crore
+- Monthly Active Users (providers): 3,500
+- Average Net Promoter Score (NPS): 62
+- Customer Churn Rate: 4.2% annually
+- Average Contract Value (ACV): INR 1,52,000 per clinic per year
+
+COMPANY SIZE
+------------
+- Employees: 145 full-time staff
+- Departments: Engineering (55), Product (18), Sales (25), Customer Success (22), Operations (15), Finance & Legal (10)
+
+LEADERSHIP TEAM
+---------------
+- CEO: Dr. Arjun Mehta (co-founder, ex-doctor)
+- CTO: Priya Nair (ex-Philips Healthcare)
+- CPO: Sameer Khan
+- VP Sales: Rohan Desai

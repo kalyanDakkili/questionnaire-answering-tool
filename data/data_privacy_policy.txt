@@ -1,0 +1,58 @@
+NOVAMED HEALTH - DATA PRIVACY & RETENTION POLICY
+=================================================
+
+DATA SUBJECT RIGHTS UNDER DPDP ACT 2023
+-----------------------------------------
+- Right to Access: Request a copy of personal data (fulfilled within 7 business days)
+- Right to Correction: Request correction of inaccurate data (fulfilled within 5 business days)
+- Right to Erasure: Request deletion of data where legally permissible
+- Right to Portability: Export personal data in machine-readable format (JSON/PDF)
+- Right to Withdraw Consent: Opt out of non-essential processing at any time
+- Right to Grievance Redressal: Contact our Data Protection Officer at dpo@novamed.health
+
+DATA COLLECTION
+---------------
+NovaMed Health collects the following categories of data:
+1. Patient Health Records (PHR): Medical history, prescriptions, lab results, visit notes
+2. Provider Data: Doctor profiles, schedules, qualifications, billing information
+3. Clinic Operational Data: Appointments, billing codes, insurance claims
+4. Platform Usage Data: Feature usage, session logs, error logs (anonymized)
+5. Communication Data: Appointment reminders, prescription notifications
+
+DATA RETENTION
+--------------
+- Patient health records: Retained for 7 years post last patient interaction (per MCI guidelines)
+- Billing and financial records: Retained for 8 years (per Indian tax law)
+- Audit logs: Retained for 3 years
+- Session logs: Retained for 90 days
+- Deleted user data: Purged within 30 days of deletion request
+- Backup data: Retained for 90 days with automated deletion
+
+DATA SUBJECT RIGHTS
+-------------------
+Under DPDP Act 2023, patients and users have the following rights:
+- Right to Access: Request a copy of their personal data (fulfilled within 7 business days)
+- Right to Correction: Request correction of inaccurate data (fulfilled within 5 business days)
+- Right to Erasure: Request deletion of data where legally permissible
+- Right to Portability: Export personal data in machine-readable format (JSON/PDF)
+- Right to Withdraw Consent: Opt out of non-essential processing
+
+DATA PROCESSING
+---------------
+- Data is processed only for stated purposes (healthcare delivery and billing)
+- No data is sold to third parties under any circumstances
+- Anonymized, aggregated data may be used for product improvement with explicit opt-in
+- Third-party service providers are governed by Data Processing Agreements (DPAs)
+- Sub-processors are listed in our Third-Party Vendor Registry (available on request)
+
+COOKIES AND TRACKING
+--------------------
+- Essential cookies only on patient-facing portal
+- Analytics: Google Analytics with IP anonymization enabled
+- No advertising cookies or third-party tracking pixels
+
+DATA BREACH RESPONSE
+--------------------
+- Customers notified within 24 hours of confirmed breach affecting their data
+- Regulatory notification (CERT-In) within 6 hours per IT Amendment Rules
+- Post-incident report provided within 30 days

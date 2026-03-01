@@ -1,0 +1,35 @@
+
+VENDOR SECURITY ASSESSMENT QUESTIONNAIRE
+NovaMed Health
+
+Instructions: Please answer each question completely. Attach supporting documentation where applicable.
+
+Q1. What type of encryption do you use for data at rest and data in transit?
+
+Q2. Is your platform compliant with HIPAA, ISO 27001, or SOC 2? Please provide details and certification dates.
+
+Q3. Where is customer data physically stored? Is data residency configurable?
+
+Q4. What is your platform's uptime SLA commitment for enterprise customers?
+
+Q5. How do you handle security incidents and data breaches? What is your notification timeline?
+
+Q6. What integrations do you support with lab systems and pharmacy networks?
+
+Q7. What is your backup and disaster recovery strategy, including RPO and RTO?
+
+Q8. Do you provide an API? What authentication method does it use?
+
+Q9. What training and onboarding support do you provide to new customers?
+
+Q10. What are your support response time SLAs by severity level?
+
+Q11. How long do you retain patient health records and audit logs?
+
+Q12. What rights do data subjects have under your privacy policy?
+
+Q13. What is your annual recurring revenue and how many active users does your platform have?
+
+Q14. Do you conduct regular penetration testing? Who performs it?
+
+Q15. What languages does your platform support?
