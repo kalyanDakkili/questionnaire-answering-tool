@@ -1,5 +1,6 @@
 package com.almabase.questionnaire.service;
 
+import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.poi.ss.usermodel.*;
@@ -31,7 +32,7 @@ public class DocumentParserService {
     }
 
     private String extractFromPdf(InputStream is) throws IOException {
-        try (PDDocument doc = PDDocument.load(is)) {
+        try (PDDocument doc = Loader.loadPDF(is.readAllBytes())) {
             PDFTextStripper stripper = new PDFTextStripper();
             return stripper.getText(doc);
         }
