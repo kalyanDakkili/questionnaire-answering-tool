@@ -3,6 +3,9 @@
 > **Almabase GTM Engineering Internship Assignment**  
 > Built with Java 21 + Spring Boot 3 | Full-stack | AI-powered
 
+🌐 **Live Demo:** https://questionnaire-answering-tool.onrender.com  
+📦 **GitHub:** https://github.com/kalyanDakkili/questionnaire-answering-tool
+
 ---
 
 ## What Was Built
@@ -94,6 +97,7 @@ The system uses a **3-stage keyword retrieval pipeline**:
 | Document Parsing | Apache PDFBox + Apache POI | PDF, DOCX, XLSX, TXT support |
 | Document Export | Apache POI XWPF | Structured DOCX generation |
 | Build | Maven 3 | Standard Java build tool |
+| Deployment | Docker | Containerized deployment on Render |
 
 ---
 
@@ -224,7 +228,7 @@ Get a free key at: https://aistudio.google.com/apikey
 2. **Async parallel processing** — Use Java 21 virtual threads to answer all questions in parallel, reducing wait time from ~N seconds to ~1 second
 3. **PostgreSQL** — Production-grade database with proper connection pooling
 4. **Streaming answers** — Show answers appearing in real-time using SSE instead of waiting for all to complete
-5. **Docker Compose** — `docker-compose up` for one-command deployment with no Java/Maven install needed
+5. **Docker Compose** — `Dockerfile` is already included for container deployment. Would add `docker-compose.yml` for one-command local setup with no Java/Maven install needed
 6. **Version history with diff** — Store multiple runs per questionnaire and show what changed between versions
 7. **Excel questionnaire support** — Parse XLSX files where questions are in a specific column
 8. **Answer confidence improvement** — Use BM25 ranking instead of simple keyword counting for better relevance scoring
